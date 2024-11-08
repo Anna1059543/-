@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест на знания</title>
+    <style>
+        body {
+            background-image: url('2 стрватев.png');
+            background-size:100% 100%; /* Заставляет изображение занимать весь фон */
+            background-repeat: no-repeat; /* Не повторять изображение */
+            margin: 0;
+            height: 100vh;
+            width: 100vh;
+            align-items: flex-start; 
+            padding-top: 20px; 
+            padding-left: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.308);
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+            cursor: pointer;
+            display: none;
+            margin-left: 50px;
+            margin-top: 30px;
+        }
+
+        h1 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        #result {
+            margin-top: 20px;
+        }
+        .options {
+            margin-top: 20px; 
+        }
+        .container input[type="radio"] {
+            display: none; 
+        }
+        .container input {
+            display: none;;
+        }
+
+        .container svg {
+            overflow: visible;
+        }
+
+        .path {
+            fill: none;
+            stroke: rgb(92, 92, 92);
+            stroke-width: 6;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: stroke-dasharray 0.5s ease, stroke-dashoffset 0.5s ease;
+            stroke-dasharray: 241 9999999;
+            stroke-dashoffset: 0;
+        }
+
+        .container input:checked ~ svg .path {
+            stroke-dasharray: 70.51 9999999;
+            stroke-dashoffset: -262.27;
+        }
+
+    button {
+        --button_radius: 0.30em;
+        --button_color: #e8e8e8;
+        --button_outline_color: #3a3939;
+        font-size: 12px;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+        border-radius: var(--button_radius);
+        background: var(--button_outline_color);
+        margin-top: 25px;
+    }
+
+    .button_top {
+        display: block;
+        box-sizing: border-box;
+        border: 2px solid var(--button_outline_color);
+        border-radius: var(--button_radius);
+        padding: 0.5em 1em;
+        background: var(--button_color);
+        color: var(--button_outline_color);
+        transform: translateY(-0.2em);
+        transition: transform 0.1s ease;
+    }
+
+    button:hover .button_top {
+         transform: translateY(-0.33em);
+    }
+
+    button:active .button_top {
+        transform: translateY(0);
+    }
+    .card {
+        box-sizing: border-box;
+        width: 250px;
+        height: 150px;
+        background: rgba(217, 217, 217, 0.58);
+        border: 1px solid white;
+        box-shadow: 12px 17px 51px rgba(0, 0, 0, 0.22);
+        backdrop-filter: blur(6px);
+        border-radius: 17px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.5s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        user-select: none;
+        font-weight: bolder;
+        color: black;
+        margin-left: 50px;
+        margin-top: 90px;
+    }
+
+    .card:hover {
+        border: 1px solid black;
+        transform: scale(1.05);
+    }
+#buttonnaz {
+    width: 9em;
+    height: 3em;
+    border-radius: 30em;
+    font-size: 15px;
+    font-family: inherit;
+    border: none;
+    position: fixed;
+    position: fixed;
+    bottom: 20px; 
+    left: 20px; 
+    z-index: 1000;
+    color: rgb(0, 0, 0); 
+    cursor: pointer;
+    overflow: hidden;
+    z-index: 1;
+    background-color: #3c484ea1;
+}
+#buttonnaz::before {
+ content: '';
+ width: 0;
+ height: 3em;
+ border-radius: 30em;
+ position: absolute;
+ top: 0;
+ left: 0;
+ background-image: linear-gradient(to right, #536c7a 0%, #bfbec4 100%);
+ transition: .5s ease;
+ display: block;
+ z-index: -1;
+}
+#buttonnaz:hover::before {
+ width: 9em;
+}
+.card:active {
+  transform: scale(0.95) rotateZ(1.7deg);
+}
+.wrapper {
+    display: flex; 
+    align-items: flex-start; 
+    padding: 20px; 
+}
+.input-container {
+    margin: 15px;
+}
+
+input[type="text"] {
+    width: 100%; 
+    height: 40px; 
+    padding: 10px; 
+    border: 2px solid rgb(85, 85, 85); 
+    border-radius: 5px;
+    box-sizing: border-box; 
+    font-size: 15px;
+    transition: border-color 0.3s; 
+    background-color: rgba(95, 95, 95, 0.349);
+    color: #000000;
+}
+
+input[type="text"]:focus {
+    border-color: #1f1f1f9f; 
+    outline: none; 
+}
+    </style>
+    </head>
+    <body>
+        <div class="wrapper">
+        <div class="container" id="questions-container">
+            <h1>Давайте поможем Банкиру решить пару задач</h1>
+            <div id="question"></div>
+            <div class="options" id="options"></div>
+            <input type="text" id="text-answer" style="display: none;" placeholder="Введите ваш ответ" />
+            <button id="submit-btn">
+                <span class="button_top"> Отправить </span>
+            </button>
+            <p id="result"></p>
+        </div>
+        <div class="card">
+            Маленький принц: Добрый день!
+        </div>
+    </div>
+        <script>
+            const questions = [
+                { 
+                    text: "Найдите значение выражения: 847 – (147 + 350). Выберите один верный вариант.", 
+                    answer: 350,
+                    options: [1050, 350, 644] 
+                },
+                { 
+                    text: "Запишите цифрами число: шестьдесят семь миллиардов сто тридцать три миллиона девятьсот пятьдесят одна тысяча восемьсот сорок семь.", 
+                    answer: "67 133 951 847",
+                    options: [] 
+                },
+                { 
+                    text: "Сравните числа: 33 704 и 33 074. В ответе укажите большее из них. ", 
+                    answer: "33 704",
+                    options: ["33 704", "33 074"] 
+                },
+                { 
+                    text: "Решите уравнение: х – 489 = 215. Выберите один верный вариант. ", 
+                    answer: "704",
+                    options: [704, 274] 
+                },
+                { 
+                    text: "Из предложенных чисел 7335, 8122, 2550, 4154, 4572, 4977 выберите те, которые делятся на 2. В ответ выпишите найденные числа в порядке возрастания, разделяя их запятой. Например: 111, 222, 333.", 
+                    answer: "2550, 4154, 4572, 8122",
+                    options: [] 
+                },
+                { 
+                    text: "Округлите число 573 375 до сотен. Выберите один верный вариант.", 
+                    answer: "573 400",
+                    options: ["574 000", "573 300", "573 400"] 
+                },
+                { 
+                    text: "В первом мешке 34 кг золотых монет, а во втором мешке на 12 кг серебряных монет больше, чем в первом. Сколько золотых и серебряных монет в двух мешках вместе? В ответ впишите полученный ответ.", 
+                    answer: "80",
+                    options: [] 
+                },
+                { 
+                    text: "Впишите наименьшее натуральное число.", 
+                    answer: "1",
+                    options: [] 
+                },
+                { 
+                    text: "Представьте число 46321 в виде суммы разрядных слагаемых. Ответ выпишите. Например: 1 + 2 + 3", 
+                    answer: "40000 + 6000 + 300 + 20 + 1",
+                    options: [] 
+                },
+                { 
+                    text: "Даны точки А (2), В (11), С (9), D (27) и E (32). Какая из точек расположена на координатном луче между точками D и C? Выберите один верный вариант.", 
+                    answer: "B(11)",
+                    options: ["B(11)", "С(9)", "А(2)"] 
+                }
+            ];
+            let currentQuestionIndex = 0;
+            let score = 0;
+            let cardTextState = 0;
+        
+            function displayCurrentQuestion() {
+                const questionContainer = document.getElementById('question');
+                const optionsContainer = document.getElementById('options');
+                const textAnswerInput = document.getElementById('text-answer');
+
+                if (currentQuestionIndex < questions.length) {
+                    questionContainer.innerText = questions[currentQuestionIndex].text;
+                    optionsContainer.innerHTML = '';
+                    textAnswerInput.style.display = 'none'; 
+                    const answers = questions[currentQuestionIndex].options;
+    
+                    if (answers.length > 0) {
+                        answers.forEach(answer => {
+                        const label = document.createElement('label');
+                        label.className = 'path';
+                        label.innerHTML = `
+                            <input type="radio" name="answer" value="${answer}" />
+                            <svg viewBox="0 0 64 64" height="1em" width="2em">
+                                <path d="M 0 16 V 56 A 8 8 90 0 0 8 64 H 56 A 8 8 90 0 0 64 56 V 8 A 8 8 90 0 0 56 0 H 8 A 8 8 90 0 0 0 8 V 16 L 32 48 L 64 16 V 8 A 8 8 90 0 0 56 0 H 8 A 8 8 90 0 0 0 8 V 56 A 8 8 90 0 0 8 64 H 56 A 8 8 90 0 0 64 56 V 16" pathLength="575.05" class="path"></path>
+                            </svg>
+                            ${answer}
+                        `;
+                        optionsContainer.appendChild(label);
+                    });
+                    } else {
+                        textAnswerInput.style.display = 'block';
+                        textAnswerInput.value = '';
+                    }
+                    document.getElementById('result').innerText = ''; 
+                } else {
+                    document.getElementById('result').innerText = `Вы ответили правильно на: ${score}/${questions.length} вопроса.`;
+                    document.getElementById('submit-btn').disabled = true; 
+                }
+            }
+            function continueCardConversation() {
+                const card = document.getElementById('card');
+
+                if (cardTextState < followUpDialog.length) {
+                    card.innerText = followUpDialog[cardTextState];
+                    cardTextState++;
+                } else {
+                    card.innerText = "Банкир: Помоги мне решить пару задач";
+                    cardTextState = -1; 
+                    document.getElementById('questions-container').style.display = 'block'; 
+                    displayCurrentQuestion(); 
+                }
+            }
+            document.getElementById('submit-btn').addEventListener('click', () => {
+                const selectedOption = document.querySelector('input[name="answer"]:checked');
+                const textAnswerInput = document.getElementById('text-answer');
+                
+                
+                if (selectedOption) {
+                    const userAnswer = selectedOption.value;
+                    const correctAnswer = questions[currentQuestionIndex].answer.toString();
+    
+                    if (userAnswer === correctAnswer) {
+                        score++;
+                    } 
+    
+                    currentQuestionIndex++;
+                    displayCurrentQuestion();
+                } else if (textAnswerInput.style.display === 'block') {
+                    const userAnswer = textAnswerInput.value.trim();
+                    const correctAnswer = questions[currentQuestionIndex].answer.toString(); 
+
+                    if (userAnswer === correctAnswer) {
+                        score++;
+                    } 
+                    currentQuestionIndex++;
+                    displayCurrentQuestion();
+                } 
+                else {
+                    document.getElementById('result').innerText = "Выберите действительный ответ.";
+                }
+            });
+            
+            document.querySelector('.card').addEventListener('click', () => {
+                const card = document.querySelector('.card');
+    
+                if (cardTextState === 0) {
+                    card.innerText = "Банкир: Двадцать два да шесть — двадцать восемь. Двадцать шесть да пять — тридцать один. Уф! Итого, стало быть, пятьсот один миллион шестьсот двадцать две тысячи семьсот тридцать один.";
+                } else if (cardTextState === 1) {
+                    card.innerText = "Маленький принц: Пятьсот миллионов чего?";
+                } else if (cardTextState === 2) {
+                    card.innerText = "Банкир: Пятьсот миллионов этих маленьких штучек, которые иногда видны в воздухе.";
+                } else if (cardTextState === 3) {
+                    card.innerText = "Маленький принц: Пятьсот миллионов звезд? Что же ты с ними со всеми делаешь?";
+                } else if (cardTextState === 4) {
+                    card.innerText = "Банкир: Распоряжаюсь ими. Считаю их и пересчитываю. Это очень трудно. Но я человек серьезный.";
+                } else if (cardTextState === 5) {
+                    card.innerText = "Маленький принц: Забавно! И даже поэтично.";
+                } else if (cardTextState === 6){
+                    card.innerText = "Банкир: Я тут не как не могу разобраться в пару примерах. Поможешь мне?";
+                   
+                    document.getElementById('questions-container').style.display = 'block'; 
+                    displayCurrentQuestion(); 
+                } else if (cardTextState === 7) {
+                    card.innerText = "Банкир: Спасибо, ты действительно помог мне! Теперь я могу сосредоточиться на своих делах.";
+                } else{
+                    card.innerText = "Маленький принц: Пока!";
+                    
+                }
+                cardTextState++; 
+            });
+        
+            displayCurrentQuestion(); 
+        </script>
+
+</body>
+<body>
+    <button id="buttonnaz" onclick="window.location.href='index.html';"> Назад
+    </button>
+</body>
+</html>
